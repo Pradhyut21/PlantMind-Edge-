@@ -176,10 +176,13 @@ Factory floors (stamping presses, 5-axis CNC cells, automated packaging bays) fr
 ```
 PlantMind-Edge/
 ├── README.md                      # Comprehensive documentation & visual showcase
-├── requirements.txt               # Python backend dependencies (including qdrant-edge-py==0.8.0)
+├── HACKATHON.md                   # Hackathon judging matrix & submission guide
+├── PITCH.md                       # 3-minute executive pitch & demo narrative
+├── APPROACH_AND_CHALLENGES.md     # Architecture decisions & engineering post-mortem
+├── PlantMind_Edge_Executive_Deck.pptx # 16:9 Executive PowerPoint slide deck
+├── requirements.txt               # Python backend dependencies (qdrant-edge-py==0.8.0)
 ├── seed_data.py                   # Automated industrial dataset & conflict seeder
 ├── verify_demo.py                 # End-to-end automated integration test suite (7/7 pass)
-├── capture_screenshots.py         # Playwright automated UI screenshot capture
 │
 ├── docs/
 │   ├── screenshots/               # High-DPI captured application screenshots
