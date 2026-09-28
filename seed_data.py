@@ -17,13 +17,13 @@ if hasattr(sys.stdout, "reconfigure"):
         pass
 
 
-from qdrant_edge.models import (
+from plantmind_core.models import (
     KnowledgeEntry,
     KnowledgeType,
     SyncStatus,
     ConflictRecord,
 )
-from qdrant_edge.shard import EdgeShard
+from plantmind_core.shard import EdgeShard
 from cloud_api.central_store import CentralStore
 from cloud_api.conflict_engine import ConflictEngine
 
@@ -293,7 +293,7 @@ def seed():
 
     print("\n==================================================")
     print(" Seed Complete! PlantMind Edge environment is ready.")
-    print(" - Central Qdrant & SQLite initialized")
+    print(" - Central Qdrant & conflict store initialized")
     print(" - Kiosk-1 & Kiosk-2 local EdgeShards seeded")
     print(" - Pre-configured safety conflict queued for review")
     print("==================================================")

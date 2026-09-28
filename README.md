@@ -1,66 +1,90 @@
 # 🏭 PlantMind Edge
 
-> **Offline-first industrial knowledge-continuity platform where factory-floor technicians search and update maintenance knowledge locally via Qdrant Edge, with intelligent, conflict-aware sync to a central Qdrant Server when connectivity returns.**
+> **Offline-first industrial knowledge-continuity platform where factory-floor technicians search and update maintenance knowledge locally via official Qdrant Edge, with intelligent, conflict-aware sync to a central Qdrant Server when connectivity returns.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Vector Engine: Qdrant Edge](https://img.shields.io/badge/Vector_DB-Qdrant_Edge-red.svg)](https://qdrant.tech)
+[![Vector Engine: Qdrant Edge](https://img.shields.io/badge/Vector_DB-qdrant--edge--py_0.8.0-red.svg)](https://qdrant.tech)
 [![AI Reasoning: Groq LLaMA-3.3-70B](https://img.shields.io/badge/Reasoning-Groq_LLaMA_3.3_70B-orange.svg)](https://groq.com)
 [![Next.js: 16](https://img.shields.io/badge/Frontend-Next.js_16_PWA-black.svg)](https://nextjs.org)
 [![FastAPI: 0.115](https://img.shields.io/badge/Backend-FastAPI-teal.svg)](https://fastapi.tiangolo.com)
-[![Latency: Sub-150ms](https://img.shields.io/badge/Search_Latency-%3C150ms_Offline-emerald.svg)](#offline-search)
-[![Offline Capable: 100%](https://img.shields.io/badge/Offline_Capable-100%25-blue.svg)](#architecture)
+[![Verification: 7/7 Pass](https://img.shields.io/badge/Automated_Audit-7%2F7_Passed-emerald.svg)](#quick-start-run-locally)
+[![Offline Capable: 100%](https://img.shields.io/badge/Offline_Capable-100%25-blue.svg)](#system-architecture)
+
+---
+
+> [!IMPORTANT]
+> ### ⚡ Executive 30-Second Summary for Hackathon Judges
+> 1. **What is PlantMind Edge?** An offline-first industrial knowledge continuity platform where factory technicians search and author maintenance intelligence on rugged tablets in complete wireless dead zones.
+> 2. **Official Qdrant Edge Utilization:** Built directly on top of the **official `qdrant-edge-py==0.8.0` library (`from qdrant_edge import EdgeShard`)**, managing native Rust-backed shards with local on-disk segments, Write-Ahead Logs (WAL), and HNSW cosine indexes directly on local CPU.
+> 3. **The Industrial Edge Reality:** Heavy manufacturing floors (high-tonnage presses, automated cells) are physical Faraday cages where cloud APIs are unreachable. On-device vector retrieval delivers Dave Miller's 28 years of unwritten tribal fixes with **observed sub-second cold / <150ms warm end-to-end latency** and **zero cloud dependencies**.
+> 4. **Safety-Critical Updates Require Review (No Silent Overwrites):** When competing offline updates are synchronized, safety procedures are strictly quarantined. **Groq LLaMA-3.3-70B** performs deep reasoning on parameter diffs, hazard omissions (e.g. bypassed interlocks or skipped thermal cool-downs), and presents clear guidance to human managers.
+> 5. **Deliberate Data Sovereignty:** Technicians can flag drafts as *"Keep local until reviewed"*, keeping rough notes on-device until peer review is complete.
+> 6. **Instant Verification:** Run `python verify_demo.py` in your terminal — all 7 integration steps (offline search, local staging, memory inspection, delta sync, AI conflict reasoning) execute and pass with exit code `0`.
+
+### 🖥️ Validated Engineering Environment
+| Component | Specification / Tested Target | Verification Status |
+| :--- | :--- | :--- |
+| **Vector Engine** | `qdrant-edge-py==0.8.0` (Native `EdgeShard.create` / `.load`) | ✅ Verified on-device |
+| **Embeddings** | FastEmbed `BAAI/bge-small-en-v1.5` (384d dense vector ONNX) | ✅ Low-latency CPU execution |
+| **Fallback** | Air-gapped deterministic lexical n-gram projection | ✅ Verified offline resilience |
+| **Observed Latency** | **Observed warm-cache latency: ~100–135 ms on demo hardware** (<200ms target passed; cold-start ~135–550ms) | ✅ Benchmark passed |
+| **Disk Footprint** | Measured shard directory: **~14–130 MB** (32 MiB WAL segment capacity) | ✅ Telemetry verified |
+| **Integration Suite** | `python verify_demo.py` (7/7 tests end-to-end) | ✅ Exit code `0` |
+
+> [!NOTE]
+> **Performance Note on Measured Latency:**  
+> The first offline search may include ONNX runtime model wake-up and initial HTTP connection overhead (~135–490 ms observed on cold start). Performance figures reported in the demo are measured end-to-end against the running Edge API (`http://127.0.0.1:8000`). Steady-state warm-cache queries consistently execute in **~100–135 ms** on local CPU (well under the 200 ms real-time threshold). Warm-cache measurements should be interpreted separately from cold-start latency.
 
 ---
 
 ### 📚 Quick Links & Hackathon Documentation
 | Document | Focus & Content |
 | :--- | :--- |
-| 📦 **[`PlantMind_Edge_Submission.zip`](PlantMind_Edge_Submission.zip)** | **Complete Clean Submission Archive** — Full project package excluding `node_modules`, `.next`, and cache directories for immediate distribution. |
-| 📊 **[`PlantMind_Edge_Executive_Deck.pptx`](PlantMind_Edge_Executive_Deck.pptx)** | **16:9 PowerPoint Slide Deck** — Complete offline presentation deck with executive white theme, embedded UI screenshots, and speaker notes. |
-| 🎬 **[`presentation/index.html`](presentation/index.html)** | **Interactive HTML PPT Presenter (Executive White Theme)** — 8-slide self-playing keynote with Indian English neural voice narration (`en-IN-PrabhatNeural`). |
-| 📹 **[`brag-output/brag.mp4`](brag-output/brag.mp4)** | **Full HD 1080p Demo Video** — 3.5-minute comprehensive product video rendered with synchronized narration, background music, and baked poster frame. |
+| 📦 **[`PlantMind_Edge_Submission.zip`](PlantMind_Edge_Submission.zip)** | **Complete Clean Submission Archive** — Full project package excluding `node_modules`, `.next`, `.wav` intermediates, and cache directories for immediate distribution. |
+| 📊 **[`PlantMind_Edge_Executive_Deck.pptx`](PlantMind_Edge_Executive_Deck.pptx)** | **16:9 PowerPoint Slide Deck** — Complete 9-slide offline presentation deck with executive white theme, embedded UI screenshots, engineering verification matrix, and speaker notes. |
+| 📹 **[`docs/video/plantmind_edge_demo.mp4`](docs/video/plantmind_edge_demo.mp4)** | **Full HD 1080p Demo Video** — Comprehensive product video rendered with synchronized narration, background music, and baked poster frame. |
 | 🏆 **[`HACKATHON.md`](HACKATHON.md)** | **Official Submission Guide** — Problem statement alignment, judging criteria matrix, and 60-second verification instructions. |
-| 🎙️ **[`PITCH.md`](PITCH.md)** | **3-Minute Pitch Script & Slide Deck** — Compelling presentation script, factory downtime ROI ($22k/min), and DeadMind knowledge continuity narrative. |
-| 🛠️ **[`APPROACH_AND_CHALLENGES.md`](APPROACH_AND_CHALLENGES.md)** | **Engineering Deep-Dive & Post-Mortem** — Why Qdrant Edge, Windows symlink workarounds, deterministic n-gram vectorizer fallbacks, and safety guards. |
+| 🎙️ **[`PITCH.md`](PITCH.md)** | **3-Minute Pitch Script & Slide Deck** — Compelling presentation script, factory downtime context, and tribal knowledge continuity narrative. |
+| 🛠️ **[`APPROACH_AND_CHALLENGES.md`](APPROACH_AND_CHALLENGES.md)** | **Engineering Deep-Dive & Post-Mortem** — Why Qdrant Edge, Windows symlink workarounds, deterministic n-gram vectorizer fallbacks, and native Rust binding lifecycle. |
 
 ---
 
 ## 🎬 Executive Demo Video & Presentation Suite
 
-[![PlantMind Edge Demo Poster](brag-output/brag.jpg)](brag-output/brag.mp4)
+[![PlantMind Edge Demo Poster](docs/video/poster.jpg)](docs/video/plantmind_edge_demo.mp4)
 
 > 🎙️ **Narration:** Indian English Neural Accent (`en-IN-PrabhatNeural`)  
 > 🎨 **Theme:** Executive White Theme with crisp typography and verified UI screenshots  
-> 📊 **PowerPoint File:** [**`PlantMind_Edge_Executive_Deck.pptx`**](PlantMind_Edge_Executive_Deck.pptx) (16:9 Widescreen, 2.73 MB, Speaker Notes embedded)  
-> 🖥️ **Live Presenter:** Open [**`presentation/index.html`**](presentation/index.html) or [**`http://localhost:8000/presentation/index.html`**](http://localhost:8000/presentation/index.html) in any browser to experience the self-playing slide deck!  
-> 📹 **Video File:** [**`brag-output/brag.mp4`**](brag-output/brag.mp4) (1080p H.264, 3.5 mins, 10.3 MB)
+> 📊 **PowerPoint File:** [**`PlantMind_Edge_Executive_Deck.pptx`**](PlantMind_Edge_Executive_Deck.pptx) (16:9 Widescreen, 2.73 MB, 9 Slides with Speaker Notes & Verification Matrix)  
+> 📹 **Demo Video:** [**`docs/video/plantmind_edge_demo.mp4`**](docs/video/plantmind_edge_demo.mp4) (1080p Full HD H.264, 3.5 mins, 9.87 MB)
 
+---
 
 ## 📸 Visual Showcase & UI Tour
 
-### 1. Offline Semantic Search (< 150ms on Factory Floor)
-> **Airplane Mode Active** — All queries hit the local on-device `EdgeShard` dense HNSW vector index with zero network dependencies. Spoken voice input or typed symptoms return ranked procedures, incident logs, and senior technician tribal tips.
+### 1. Offline Semantic Search (Observed Warm Latency ~100–135ms on Demo Hardware)
+> **Application-Level Offline Mode Active** — All queries hit the local on-device `qdrant_edge.EdgeShard` dense HNSW vector index with no cloud sync requests issued while offline. Spoken voice input or typed symptoms return ranked procedures, incident logs, and senior technician tribal tips.
 
 ![Offline Semantic Search](docs/screenshots/01_offline_search.png)
 
 ---
 
-### 2. Append-Only Local Write Log & Deliberate Data Policy
-> Technicians author field observations while offline. The entry is vectorized on CPU in ~5ms, committed to the local `EdgeShard`, and queued in `pending_write_queue.json`. Includes the **"Keep local until reviewed"** policy checkbox to prevent unverified drafts from broadcasting to the plant fleet.
+### 2. Persistent Local Staging Log & Deliberate Data Policy
+> Technicians author field observations while offline. The entry is vectorized locally on CPU (~5ms observed on demo hardware), committed to the local `EdgeShard`, and queued in `pending_write_queue.json`. Includes the **"Keep local until reviewed"** policy checkbox to prevent unverified drafts from broadcasting to the plant fleet.
 
-![Append-Only Local Write](docs/screenshots/02_append_only_write.png)
+![Persistent Local Staging Log](docs/screenshots/02_append_only_write.png)
 
 ---
 
 ### 3. Device Memory Inspector & On-Device Storage Metrics
-> Provides transparent visibility into local device telemetry: physical disk usage, total entries, vector dimensions (384d), and breakdown of **Synced**, **Pending Sync**, and **Local-Only** entries. Includes an interactive catalog to toggle data policies directly per entry.
+> Provides transparent visibility into local device telemetry: physical disk usage (measured local shard footprint: ~14–130 MB depending on WAL pre-allocation of 32 MiB and dataset size), total entries, vector dimensions (384d), and breakdown of **Synced**, **Pending Sync**, and **Local-Only** entries. Includes an interactive catalog to toggle data policies directly per entry.
 
 ![Device Memory Inspector](docs/screenshots/03_device_memory_inspector.png)
 
 ---
 
 ### 4. Central Office Safety Conflict Reconciliation (Groq LLaMA-3.3-70B)
-> When two technicians update a safety procedure offline, **PlantMind Edge strictly prohibits silent last-write-wins overwriting**. Diverging versions are queued for human review with a **Groq LLaMA-3.3-70B plain-language reasoning breakdown** of parameter differences, safety risks, and recommended actions.
+> When two technicians update a safety procedure offline, **PlantMind Edge strictly prohibits silent last-write-wins overwriting**. Diverging versions are quarantined for human review with a **Groq LLaMA-3.3-70B plain-language reasoning breakdown** of parameter differences, safety risks, and recommended actions.
 
 ![Conflict Reconciliation](docs/screenshots/04_conflict_reconciliation.png)
 
@@ -79,8 +103,8 @@
 Factory floors (stamping presses, 5-axis CNC cells, automated packaging bays) frequently suffer from severe RF shielding, dead zones, and zero Wi-Fi connectivity. When a high-tonnage press halts or a spindle chatters, technicians cannot wait on network connections or lose the irreplaceable tribal knowledge of retiring senior specialists.
 
 ### The Solution: Qdrant Edge-to-Cloud Workflow
-1. **Edge Node = Source of Truth for Reads While Offline**: Every technician query hits the local `EdgeShard` first — queries never stall on network latency.
-2. **Append-Only Staging**: Writes are appended to a persistent local transaction queue rather than destructive edits, ensuring conflict detection is mathematically deterministic.
+1. **Edge Node = Source of Truth for Reads While Offline**: Every technician query hits the local native `EdgeShard` first — queries never stall on network latency.
+2. **Persistent Staging Log**: Writes are staged to a persistent local transaction queue rather than destructive in-place edits, ensuring conflict evaluation is rule-deterministic rather than susceptible to silent overwrites.
 3. **Intelligent Delta Sync**: When LAN connectivity is detected, the kiosk automatically negotiates a snapshot/delta exchange: pushing eligible local observations and pulling central updates.
 4. **Safety Procedure Safeguard**: Procedures tagged `safety_procedure` are protected by a safety barrier: concurrent edits are never resolved by newest timestamp, but are escalated to the human reconciliation queue with AI reasoning.
 5. **Deliberate Local-vs-Cloud Policy**: Technicians can explicitly mark sensitive notes as *"Keep local until reviewed"*, directly answering the mandate to dynamically decide what stays local vs. what syncs.
@@ -108,10 +132,10 @@ Factory floors (stamping presses, 5-axis CNC cells, automated packaging bays) fr
 │  └──────────────────────────┬───────────────────────┘  │
 │                             │                          │
 │  ┌──────────────────────────▼───────────────────────┐  │
-│  │        Qdrant Edge Engine (qdrant_edge)          │  │
-│  │  - EdgeShard: Persistent local HNSW storage      │  │
-│  │  - FastEmbed: 384d BGE ONNX local pipeline       │  │
-│  │  - Deterministic n-gram offline fallback         │  │
+│  │      Official Qdrant Edge (qdrant-edge-py 0.8.0) │  │
+│  │  - EdgeShard: Native Rust shard with WAL & HNSW  │  │
+│  │  - FastEmbed: 384d BGE ONNX local CPU pipeline   │  │
+│  │  - Deterministic lexical n-gram offline fallback │  │
 │  └──────────────────────────────────────────────────┘  │
 └───────────────────────────▲────────────────────────────┘
                             │
@@ -144,31 +168,33 @@ Factory floors (stamping presses, 5-axis CNC cells, automated packaging bays) fr
 - **Frontend:** Next.js 16 (Turbopack, TypeScript, Service Worker PWA, Industrial Vanilla CSS)
 - **Local Edge API:** Python 3.13 + FastAPI on Port `8000`
 - **Central Cloud API:** Python 3.13 + FastAPI on Port `8001`
-- **Local Vector DB:** Qdrant Edge (`qdrant-client` embedded local shard with HNSW cosine index)
+- **Local Vector DB:** Official Qdrant Edge (`qdrant-edge-py 0.8.0`, native `qdrant_edge.EdgeShard` with segments, WAL, and HNSW cosine index)
 - **Central Vector DB:** Qdrant Server / Embedded Central Qdrant snapshot-compatible
-- **Embeddings Pipeline:** FastEmbed (ONNX BAAI/bge-small-en-v1.5, 384d, < 5ms CPU execution) + Deterministic fallback
+- **Embeddings Pipeline:** FastEmbed (ONNX BAAI/bge-small-en-v1.5, 384d, ~5ms observed on demo hardware) + Deterministic lexical fallback
 - **AI Reasoning:** Groq LLaMA-3.3-70B for plain-language conflict diff and safety risk assessment
 
 ```
 PlantMind-Edge/
 ├── README.md                      # Comprehensive documentation & visual showcase
-├── requirements.txt               # Python backend dependencies
+├── requirements.txt               # Python backend dependencies (including qdrant-edge-py==0.8.0)
 ├── seed_data.py                   # Automated industrial dataset & conflict seeder
-├── verify_demo.py                 # End-to-end automated integration test suite
+├── verify_demo.py                 # End-to-end automated integration test suite (7/7 pass)
 ├── capture_screenshots.py         # Playwright automated UI screenshot capture
 │
 ├── docs/
-│   └── screenshots/               # High-DPI captured application screenshots
-│       ├── 01_offline_search.png
-│       ├── 02_append_only_write.png
-│       ├── 03_device_memory_inspector.png
-│       ├── 04_conflict_reconciliation.png
-│       └── 05_central_knowledge_explorer.png
+│   ├── screenshots/               # High-DPI captured application screenshots
+│   │   ├── 01_offline_search.png
+│   │   ├── 02_append_only_write.png
+│   │   ├── 03_device_memory_inspector.png
+│   │   ├── 04_conflict_reconciliation.png
+│   │   └── 05_central_knowledge_explorer.png
+│   └── video/                     # Demo MP4 video
+│       └── plantmind_edge_demo.mp4
 │
-├── qdrant_edge/                   # Core Qdrant Edge local shard library
+├── plantmind_core/                # Core Qdrant Edge integration library
 │   ├── __init__.py
 │   ├── models.py                  # KnowledgeEntry, ConflictRecord, SyncDelta models
-│   ├── shard.py                   # EdgeShard persistent HNSW vector store & queue
+│   ├── shard.py                   # Official qdrant_edge.EdgeShard manager & staging queue
 │   └── embeddings.py              # FastEmbed BGE ONNX local pipeline + fallback
 │
 ├── edge_api/                      # Edge Node FastAPI service (Port 8000)
@@ -285,8 +311,8 @@ Follow this 5-step script to reproduce the evaluated edge-to-cloud workflow:
    - **Match Score:** 78% Semantic Match
    - **Guidance:** *"Don't waste 4 hours purging the accumulator — swap the B-2 cartridge seal with the high-temp polyurethane ring in Bin 14."*
 
-### Step 2: Offline Local Write & Append-Only Log
-1. Click the **"Log Observation (Append-Only)"** tab.
+### Step 2: Offline Local Staging Write
+1. Click the **"Log Observation (Staging Queue)"** tab.
 2. Click the quick demo button **"+ Relief Valve Tip"** (or type a new observation).
 3. Click **"Commit to Local EdgeShard"**.
 4. Switch to the **"Device Memory Inspector"** tab:
@@ -331,7 +357,7 @@ Follow this 5-step script to reproduce the evaluated edge-to-cloud workflow:
 | `GET` | `/api/status` | Network mode, queue size, last sync |
 | `POST` | `/api/network/toggle` | Toggles simulated airplane mode (`is_offline`) |
 | `POST` | `/api/device/switch` | Switches active simulated kiosk (`kiosk-1`, `kiosk-2`, `kiosk-3`) |
-| `GET` | `/api/search` | **100% Offline Semantic Search** on local `EdgeShard` (< 150ms) |
+| `GET` | `/api/search` | **Offline Semantic Search** (No cloud sync calls) on local `EdgeShard` (warm latency ~100–135ms on demo hardware) |
 | `POST` | `/api/entries` | Staged local write with append-only log |
 | `GET` | `/api/memory/inspect` | Returns storage bytes, breakdown, HNSW specs |
 | `POST` | `/api/sync/trigger` | Manually or automatically kicks off snapshot/delta sync |

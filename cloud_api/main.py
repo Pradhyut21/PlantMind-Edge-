@@ -4,7 +4,7 @@ from fastapi import FastAPI, HTTPException, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from qdrant_edge.models import (
+from plantmind_core.models import (
     KnowledgeEntry,
     ConflictRecord,
     SyncDelta,

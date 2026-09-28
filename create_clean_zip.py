@@ -10,7 +10,10 @@ EXCLUDE_DIRS = {
     ".gemini",
     ".agents",
     ".vscode",
-    ".idea"
+    ".idea",
+    "data",  # Exclude runtime database directories (recreated by seed_data.py)
+    "brag-output",
+    "public",
 }
 
 EXCLUDE_EXTS = {
@@ -19,7 +22,9 @@ EXCLUDE_EXTS = {
     ".log",
     ".tmp",
     ".swp",
-    ".lock"
+    ".lock",
+    ".wal",
+    ".wav"  # Exclude raw uncompressed audio intermediates
 }
 
 EXCLUDE_FILES = {
@@ -27,7 +32,17 @@ EXCLUDE_FILES = {
     ".ds_store",
     ".lock",
     "plantmind_edge_submission.zip",
-    "plantmind_edge.zip"
+    "plantmind_edge.zip",
+    # Exclude duplicate media copies (canonical copies exist in docs/video/ and presentation/)
+    "frontend/public/brag.mp4",
+    "public/brag.mp4",
+    "brag-output/brag.mp4",
+    "frontend/public/plantmind_edge_executive_deck.pptx",
+    "public/plantmind_edge_executive_deck.pptx",
+    "brag-output/plantmind_edge_executive_deck.pptx",
+    "brag-output/assets/music/bg_music.mp3",
+    "frontend/public/audio/bg_music.mp3",
+    "brag-output/audio/bg_music.mp3",
 }
 
 def make_clean_zip(output_zip_name="PlantMind_Edge_Submission.zip"):
@@ -53,13 +68,15 @@ def make_clean_zip(output_zip_name="PlantMind_Edge_Submission.zip"):
 
                 if ext in EXCLUDE_EXTS:
                     continue
-                if file_lower in EXCLUDE_FILES:
-                    continue
-                if file_lower.endswith(".zip"):
-                    continue
 
                 abs_file_path = os.path.join(root, file)
                 rel_path = os.path.relpath(abs_file_path, workspace_dir)
+                rel_norm = rel_path.replace("\\", "/").lower()
+
+                if file_lower in EXCLUDE_FILES or rel_norm in EXCLUDE_FILES:
+                    continue
+                if file_lower.endswith(".zip"):
+                    continue
 
                 # Prefix with project folder name for clean extraction
                 archive_name = os.path.join("PlantMind_Edge", rel_path)
@@ -84,8 +101,9 @@ def make_clean_zip(output_zip_name="PlantMind_Edge_Submission.zip"):
     print(f"Files Packaged:     {files_added} files")
     print(f"Uncompressed Size:  {total_uncompressed_bytes / (1024*1024):.2f} MB")
     print(f"Compressed Size:    {compressed_size / (1024*1024):.2f} MB")
-    print(f"Compression Ratio:  {(1 - compressed_size/total_uncompressed_bytes)*100:.1f}% space saved")
-    print(f"Time Taken:         {elapsed:.1f}s")
+    import shutil
+    shutil.copy2(output_zip_path, os.path.join(workspace_dir, "PlantMind_Edge.zip"))
+    print(f"Copied clean archive to: PlantMind_Edge.zip")
     print("=" * 65)
 
 if __name__ == "__main__":

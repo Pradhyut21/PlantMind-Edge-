@@ -5,13 +5,13 @@ from fastapi import FastAPI, HTTPException, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from qdrant_edge.models import (
+from plantmind_core.models import (
     KnowledgeEntry,
     KnowledgeType,
     SyncStatus,
     DeviceMemoryStats,
 )
-from qdrant_edge.shard import EdgeShard
+from plantmind_core.shard import EdgeShard
 from .config import edge_settings
 from .sync_client import EdgeSyncClient
 
@@ -32,13 +32,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-from fastapi.staticfiles import StaticFiles
-if os.path.exists("presentation"):
-    app.mount("/presentation", StaticFiles(directory="presentation", html=True), name="presentation")
-if os.path.exists("brag-output"):
-    app.mount("/brag", StaticFiles(directory="brag-output", html=True), name="brag")
-
 
 # Active shard registry (supports multi-device demo switching)
 active_shards: Dict[str, EdgeShard] = {}
@@ -137,8 +130,8 @@ def search_local(
     device_id: Optional[str] = Query(None),
 ):
     """
-    100% Offline Semantic Search on Qdrant EdgeShard.
-    Works with network completely severed; executes in <200ms.
+    Offline Semantic Search (Zero Cloud Calls) on Qdrant EdgeShard.
+    Works with network completely severed; executes with low latency on local CPU.
     """
     import time
     start = time.time()
@@ -242,13 +235,12 @@ def toggle_keep_local(entry_id: str = Body(..., embed=True), device_id: Optional
     else:
         entry.sync_status = SyncStatus.PENDING_SYNC
 
-    shard.client.set_payload(
-        collection_name="plantmind_knowledge",
-        payload={
+    shard.update_entry_payload(
+        entry_id,
+        {
             "keep_local_until_reviewed": new_val,
             "sync_status": entry.sync_status.value,
         },
-        points=[entry_id],
     )
     # Also update in queue
     queue = shard._read_queue()

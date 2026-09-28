@@ -38,8 +38,8 @@ When initializing FastEmbed (`BAAI/bge-small-en-v1.5`) on Windows, the HuggingFa
 Could not download model from HuggingFace
 ```
 **The Solution:**  
-1. In [`qdrant_edge/embeddings.py`](file:///d:/Cubicle/qdrant_edge/embeddings.py), we configured `os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"` to instruct huggingface-hub to copy blobs directly rather than symlink.
-2. We engineered a **deterministic industrial n-gram dense vectorizer fallback** (384 dimensions, L2-normalized cosine projection). If the ONNX cache is unavailable or the device is air-gapped, the system falls back transparently without crashing.
+1. In [`plantmind_core/embeddings.py`](file:///d:/Cubicle/plantmind_core/embeddings.py), we configured `os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"` to instruct huggingface-hub to copy blobs directly rather than symlink.
+2. We engineered a **deterministic industrial n-gram dense vectorizer fallback** (384 dimensions, L2-normalized cosine projection). If the ONNX cache is unavailable or the device is air-gapped, the system falls back transparently. *(Note: While full neural BGE models generalize across semantic synonyms, this lexical projection matches n-gram patterns to preserve local operational availability in extreme air-gapped scenarios).*
 
 ---
 
@@ -123,12 +123,24 @@ The header dropdown allows switching between `kiosk-1` (Stamping Bay), `kiosk-2`
 
 ### ⚠️ Challenge 6: Embedded Database Lock Contention during Git Operations
 **The Problem:**  
-Because Qdrant Client operates in embedded persistent mode on disk, SQLite and WAL `.lock` files are held open by the Python runtime. When `git add .` attempted to index the `./data/` folder, Git failed with:
-```
-error: read error while indexing data/cloud_storage/qdrant_central/.lock: Permission denied
-```
+Because local database engines operate in embedded persistent mode on disk, lock and WAL files are held open by the Python runtime. When `git add .` attempted to index the `./data/` folder, Git threw permission denied errors on active locks.
+
 **The Solution:**  
-Created a root [`.gitignore`](file:///d:/Cubicle/.gitignore) isolating `./data/`, `node_modules/`, and `.next/` build artifacts, while preserving the seed scripts, configuration, and Playwright screenshot test suites.
+Created a root [`.gitignore`](file:///d:/Cubicle/.gitignore) isolating `./data/`, `node_modules/`, and `.next/` build artifacts, while preserving seed scripts, configuration, and Playwright screenshot test suites.
+
+---
+
+### ⚠️ Challenge 7: Native `qdrant-edge-py 0.8.0` Rust-Binding Architecture
+**The Problem:**  
+Integrating the official `qdrant-edge-py` library requires adhering strictly to its native Rust-level API constraints:
+1. `Point.id` accepts only integer or valid RFC 4122 UUID format (arbitrary string IDs like `"PRESS-03-MANUAL"` cause immediate validation failure).
+2. Point payloads cannot be mutated through generic client helpers; updates require explicit `UpdateOperation.set_payload(point_ids=[...], payload={...})`.
+3. In local development, naming a local package directory `qdrant_edge/` shadows the external pip package `qdrant_edge`.
+
+**The Solution:**  
+1. Structured the core application library under `plantmind_core/`, which imports official `qdrant_edge.EdgeShard`.
+2. Implemented deterministic `to_uuid(id_val)` mapping using `uuid.uuid5(uuid.NAMESPACE_DNS, str(id_val))` so arbitrary plant IDs map reliably to valid 128-bit UUIDs while preserving the human-readable string ID in `payload['id']`.
+3. Implemented native `EdgeShard.create()` and `EdgeShard.load()` lifecycle management tracking `edge_config.json`, on-disk segments, and WAL checkpoints.
 
 ---
 
@@ -136,8 +148,8 @@ Created a root [`.gitignore`](file:///d:/Cubicle/.gitignore) isolating `./data/`
 
 | Target Metric | Requirement | Measured Result |
 | :--- | :--- | :--- |
-| **Search Latency (Offline)** | < 200ms | **133.0ms** |
+| **Search Latency (Offline)** | < 200ms target | **Sub-second (<150ms warm cache)** |
 | **Network Dependence** | 0 cloud calls when offline | **100% verified** |
-| **Vector Storage Footprint** | Low disk overhead for tablets | **56.0 KB on disk** |
-| **Conflict Detection** | Safety procedures preserved | **100% quarantined** |
-| **Automated Verification** | All checks pass end-to-end | **7 / 7 checks passed** |
+| **Physical Storage Footprint** | Low disk overhead for tablets | **~14–130 MB measured footprint (dependent on 32 MiB WAL segment pre-allocation & dataset size)** |
+| **Conflict Detection** | Safety procedures preserved | **100% quarantined & AI-reasoned** |
+| **Automated Verification** | All checks pass end-to-end | **7 / 7 checks passed (exit code 0)** |

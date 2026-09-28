@@ -15,7 +15,7 @@ from qdrant_client.models import (
     MatchValue,
 )
 
-from qdrant_edge.models import (
+from plantmind_core.models import (
     KnowledgeEntry,
     KnowledgeType,
     SyncStatus,
@@ -23,7 +23,7 @@ from qdrant_edge.models import (
     SyncSession,
     ActivityEvent,
 )
-from qdrant_edge.embeddings import EdgeEmbedder, EMBEDDING_DIM
+from plantmind_core.embeddings import EdgeEmbedder, EMBEDDING_DIM
 from .config import cloud_settings
 
 logger = logging.getLogger("cloud_api.store")

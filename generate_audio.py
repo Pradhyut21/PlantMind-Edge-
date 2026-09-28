@@ -30,13 +30,13 @@ SLIDES_DATA = [
     },
     {
         "index": 6,
-        "title": "Constrained Device Memory Inspector",
-        "narration": "Industrial edge tablets have strict hardware limits. PlantMind Edge includes an on-device Memory Inspector that continuously monitors RAM, vector cache, and disk usage. Our local EdgeShard consumes under two hundred megabytes of RAM with automated TTL retention policies, guaranteeing peak performance on low-power devices."
+        "title": "Constrained Device Memory & Footprint Inspector",
+        "narration": "Industrial edge tablets have strict hardware limits. PlantMind Edge includes an on-device Memory Inspector that continuously monitors native EdgeShard health, Write-Ahead Logs, and pending sync queues, guaranteeing predictable performance on rugged floor hardware."
     },
     {
         "index": 7,
         "title": "Groq LLaMA: No Last-Write-Wins on Safety",
-        "narration": "When tablets reconnect, conflicting offline updates are intelligently reconciled. Most edge databases rely on last-write-wins. On a manufacturing line, last-write-wins can cause fatal accidents. PlantMind Edge blocks safety-critical overwrites and invokes Groq LLaMA-3.3-70B to generate plain-language risk breakdowns and enforce master safety standards."
+        "narration": "When tablets reconnect, conflicting offline updates are intelligently reconciled. Most edge databases rely on last-write-wins. In industrial manufacturing, last-write-wins on safety procedures creates unacceptable hazards. PlantMind Edge quarantines competing safety updates and invokes Groq LLaMA-3.3-70B to synthesize plain-language risk breakdowns."
     },
     {
         "index": 8,

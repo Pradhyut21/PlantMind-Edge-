@@ -5,7 +5,7 @@ import re
 from typing import Dict, Any, Optional, Tuple, List
 from datetime import datetime, timezone
 
-from qdrant_edge.models import (
+from plantmind_core.models import (
     KnowledgeEntry,
     KnowledgeType,
     ConflictRecord,

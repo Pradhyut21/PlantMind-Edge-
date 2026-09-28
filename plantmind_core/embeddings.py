@@ -9,7 +9,7 @@ EMBEDDING_DIM = 384
 class EdgeEmbedder:
     """
     Offline-capable embedding pipeline for Qdrant Edge.
-    Uses FastEmbed (ONNX, ~5ms per embedding, runs locally without network).
+    Uses FastEmbed (ONNX, ~5ms observed on demo hardware CPU, runs locally without network).
     Provides automatic fallback to a deterministic industrial-vocabulary hashing vectorizer
     if ONNX cache is unavailable or environment is air-gapped.
     """
@@ -34,6 +34,11 @@ class EdgeEmbedder:
     def embed_text(self, text: str) -> List[float]:
         """Generate a 384-dimensional dense vector for a single text."""
         return self.embed_batch([text])[0]
+
+    def embed(self, content: str, title: str = "") -> List[float]:
+        """Generate vector from content and optional title."""
+        combined = f"{title}\n{content}" if title else content
+        return self.embed_text(combined)
 
     def embed_batch(self, texts: List[str]) -> List[List[float]]:
         """Generate dense vectors for a batch of texts."""

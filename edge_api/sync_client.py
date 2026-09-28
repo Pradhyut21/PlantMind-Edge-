@@ -3,13 +3,13 @@ from typing import Dict, Any, List
 from datetime import datetime, timezone
 import httpx
 
-from qdrant_edge.models import (
+from plantmind_core.models import (
     KnowledgeEntry,
     SyncStatus,
     SyncDelta,
     SyncResponse,
 )
-from qdrant_edge.shard import EdgeShard
+from plantmind_core.shard import EdgeShard
 
 logger = logging.getLogger("edge_api.sync_client")
 
@@ -58,7 +58,7 @@ class EdgeSyncClient:
         )
 
         try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
+            async with httpx.AsyncClient(timeout=30.0) as client:
                 res = await client.post(
                     f"{self.cloud_url}/api/sync/delta",
                     json=delta.model_dump(),

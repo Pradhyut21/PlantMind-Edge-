@@ -2,7 +2,7 @@ import logging
 from typing import List, Dict, Any, Tuple
 from datetime import datetime, timezone
 
-from qdrant_edge.models import (
+from plantmind_core.models import (
     KnowledgeEntry,
     KnowledgeType,
     SyncStatus,

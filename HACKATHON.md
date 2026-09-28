@@ -32,11 +32,11 @@ PlantMind Edge directly answers this brief with an end-to-end industrial product
 
 | Criterion | Requirement in Brief | PlantMind Edge Implementation | Proof Location |
 | :--- | :--- | :--- | :--- |
-| **Qdrant Edge Utilization** | Core vector engine running locally on-device | Implemented `EdgeShard` wrapping embedded Qdrant with persistent HNSW index, cosine similarity, and payload filtering | [`qdrant_edge/shard.py`](file:///d:/Cubicle/qdrant_edge/shard.py) |
-| **Offline-First & Low Latency** | Demonstrably works without network (<200ms) | Achieves **133ms** local semantic search on CPU via FastEmbed ONNX BGE model with network severed | [`verify_demo.py`](file:///d:/Cubicle/verify_demo.py) Step 3 |
+| **Qdrant Edge Utilization** | Core vector engine running locally on-device | Implemented native `qdrant_edge.EdgeShard` via official `qdrant-edge-py==0.8.0`, managing on-disk segments, WAL, and HNSW cosine vector index directly on local CPU | [`plantmind_core/shard.py`](file:///d:/Cubicle/plantmind_core/shard.py) |
+| **Offline-First & Low Latency** | Demonstrably works without network (<200ms) | Achieves low-latency local semantic search on CPU (~100–135ms warm cache, <200ms target passed) via FastEmbed ONNX BGE model with no cloud sync requests issued while offline | [`verify_demo.py`](file:///d:/Cubicle/verify_demo.py) Step 3 |
 | **Intelligent Sync Protocol** | Snapshot / delta exchange between edge and cloud | Delta exchange protocol: pushes eligible local updates, pulls server delta, clears staged queue | [`edge_api/sync_client.py`](file:///d:/Cubicle/edge_api/sync_client.py) |
-| **Conflict Detection & AI Reasoning** | Reject last-write-wins on safety procedures; reason through conflicts | Detects diverging versions, queues for review, and uses **Groq LLaMA-3.3-70B** to generate plain-language risk diffs | [`cloud_api/conflict_engine.py`](file:///d:/Cubicle/cloud_api/conflict_engine.py) |
-| **Device Memory Inspector** | UI showing local memory, storage, and index health | Visual dashboard displaying storage bytes (56 KB), total vectors, and breakdowns | [`DeviceMemoryInspector.tsx`](file:///d:/Cubicle/frontend/src/components/DeviceMemoryInspector.tsx) |
+| **Conflict Detection & AI Reasoning** | Reject last-write-wins on safety procedures; reason through conflicts | Quarantines diverging safety updates and uses **Groq LLaMA-3.3-70B** to generate plain-language risk breakdowns | [`cloud_api/conflict_engine.py`](file:///d:/Cubicle/cloud_api/conflict_engine.py) |
+| **Device Memory Inspector** | UI showing local memory, storage, and index health | Visual dashboard displaying native shard disk usage (~14–130 MB depending on WAL pre-allocation of 32 MiB and dataset size), point counts, and policy states | [`DeviceMemoryInspector.tsx`](file:///d:/Cubicle/frontend/src/components/DeviceMemoryInspector.tsx) |
 | **Local vs. Cloud Policy** | Dynamically decide what stays local vs. what syncs | Explicit `keep_local_until_reviewed` policy field that isolates drafts from cloud sync | [`KioskWrite.tsx`](file:///d:/Cubicle/frontend/src/components/KioskWrite.tsx) |
 | **UI Aesthetics & Polish** | Premium, high-wow-factor industrial interface | Rugged factory tablet dark mode, glowing telemetry indicators, waveform audio input, side-by-side diff | [`frontend/src/app/globals.css`](file:///d:/Cubicle/frontend/src/app/globals.css) |
 
@@ -44,11 +44,11 @@ PlantMind Edge directly answers this brief with an end-to-end industrial product
 
 ## 4. Key Architectural Innovations
 
-### 1. The Append-Only Staging Queue
-Destructive writes on edge nodes make conflict detection impossible. PlantMind Edge writes new observations to a local append-only log (`pending_write_queue.json`) while indexing into `EdgeShard`. This guarantees that if a technician makes changes while offline, the original version vector is preserved to compute exact deltas during cloud synchronization.
+### 1. The Persistent Append-Only Staging Queue
+Destructive writes on edge nodes make conflict detection impossible. PlantMind Edge writes new observations to a local append-only staging log (`pending_write_queue.json`) while indexing into the native `EdgeShard`. This guarantees that if a technician makes changes while offline, the baseline state is preserved to compute exact deltas during cloud synchronization.
 
 ### 2. Guardrailed Conflict Architecture
-Many edge systems rely on naive "last-write-wins" (LWW). On a factory floor, LWW on an emergency depressurization procedure could lead to high-pressure hydraulic injection or worker fatalities. PlantMind Edge splits updates into two tracks:
+Many edge systems rely on naive "last-write-wins" (LWW). On a factory floor, LWW on an emergency depressurization procedure creates unacceptable risk of high-pressure hydraulic injection or worker injuries. PlantMind Edge splits updates into two tracks:
 - **Operational / Incident logs**: Auto-resolve to newest version while preserving history.
 - **Safety Procedures (`safety_procedure`)**: Hard-blocked from auto-overwriting. Automatically routed to the human reconciliation queue with an automated Groq LLaMA risk assessment.
 
@@ -62,9 +62,9 @@ Not all shop-floor notes are ready for company-wide deployment. PlantMind Edge i
 - **Frontend:** Next.js 16 (App Router, Turbopack, TypeScript, Vanilla CSS, Service Worker PWA)
 - **Local Edge API:** FastAPI (Port 8000), running alongside the kiosk
 - **Central Cloud API:** FastAPI (Port 8001), running centrally
-- **Local Vector Engine:** Qdrant Edge (`qdrant-client` embedded local shard, HNSW dense index)
-- **Cloud Vector Engine:** Qdrant Server (Central Collection)
-- **Local Embedding Pipeline:** FastEmbed (ONNX BAAI/bge-small-en-v1.5, 384 dimensions)
+- **Local Vector Engine:** Official Qdrant Edge (`qdrant-edge-py==0.8.0`, native `qdrant_edge.EdgeShard` with segments & WAL)
+- **Central Vector Engine:** Qdrant Server (Central Collection, snapshot-compatible)
+- **Local Embedding Pipeline:** FastEmbed (ONNX BAAI/bge-small-en-v1.5, 384 dimensions) + deterministic lexical fallback
 - **Cloud LLM Reasoning:** Groq LLaMA-3.3-70B (`llama-3.3-70b-versatile`)
 - **Testing & Tooling:** Playwright, HTTPX, Python 3.13, Node v22.18
 
