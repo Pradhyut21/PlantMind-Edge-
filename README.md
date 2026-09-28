@@ -15,6 +15,7 @@
 ### 📚 Quick Links & Hackathon Documentation
 | Document | Focus & Content |
 | :--- | :--- |
+| 📊 **[`PlantMind_Edge_Executive_Deck.pptx`](PlantMind_Edge_Executive_Deck.pptx)** | **16:9 PowerPoint Slide Deck** — Complete offline presentation deck with executive white theme, embedded UI screenshots, and speaker notes. |
 | 🎬 **[`presentation/index.html`](presentation/index.html)** | **Interactive HTML PPT Presenter (Executive White Theme)** — 8-slide self-playing keynote with Indian English neural voice narration (`en-IN-PrabhatNeural`). |
 | 📹 **[`brag-output/brag.mp4`](brag-output/brag.mp4)** | **Full HD 1080p Demo Video** — 3.5-minute comprehensive product video rendered with synchronized narration, background music, and baked poster frame. |
 | 🏆 **[`HACKATHON.md`](HACKATHON.md)** | **Official Submission Guide** — Problem statement alignment, judging criteria matrix, and 60-second verification instructions. |
@@ -23,13 +24,14 @@
 
 ---
 
-## 🎬 Executive Demo Video & HTML PPT Presenter
+## 🎬 Executive Demo Video & Presentation Suite
 
 [![PlantMind Edge Demo Poster](brag-output/brag.jpg)](brag-output/brag.mp4)
 
 > 🎙️ **Narration:** Indian English Neural Accent (`en-IN-PrabhatNeural`)  
 > 🎨 **Theme:** Executive White Theme with crisp typography and verified UI screenshots  
-> 🖥️ **Live Presenter:** Open [**`presentation/index.html`**](presentation/index.html) or [**`http://localhost:3000/presenter.html`**](http://localhost:3000/presenter.html) in any browser to experience the self-playing slide deck!  
+> 📊 **PowerPoint File:** [**`PlantMind_Edge_Executive_Deck.pptx`**](PlantMind_Edge_Executive_Deck.pptx) (16:9 Widescreen, 2.73 MB, Speaker Notes embedded)  
+> 🖥️ **Live Presenter:** Open [**`presentation/index.html`**](presentation/index.html) or [**`http://localhost:8000/presentation/index.html`**](http://localhost:8000/presentation/index.html) in any browser to experience the self-playing slide deck!  
 > 📹 **Video File:** [**`brag-output/brag.mp4`**](brag-output/brag.mp4) (1080p H.264, 3.5 mins, 10.3 MB)
 
 
