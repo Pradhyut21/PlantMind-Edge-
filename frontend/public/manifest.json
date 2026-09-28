@@ -1,0 +1,16 @@
+{
+  "name": "PlantMind Edge — Offline Industrial Knowledge Platform",
+  "short_name": "PlantMind Edge",
+  "description": "Offline-first industrial knowledge-continuity platform powered by Qdrant Edge",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0E14",
+  "theme_color": "#FF7B00",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
