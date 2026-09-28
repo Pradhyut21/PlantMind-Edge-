@@ -15,6 +15,7 @@
 ### 📚 Quick Links & Hackathon Documentation
 | Document | Focus & Content |
 | :--- | :--- |
+| 📦 **[`PlantMind_Edge_Submission.zip`](PlantMind_Edge_Submission.zip)** | **Complete Clean Submission Archive** — Full project package excluding `node_modules`, `.next`, and cache directories for immediate distribution. |
 | 📊 **[`PlantMind_Edge_Executive_Deck.pptx`](PlantMind_Edge_Executive_Deck.pptx)** | **16:9 PowerPoint Slide Deck** — Complete offline presentation deck with executive white theme, embedded UI screenshots, and speaker notes. |
 | 🎬 **[`presentation/index.html`](presentation/index.html)** | **Interactive HTML PPT Presenter (Executive White Theme)** — 8-slide self-playing keynote with Indian English neural voice narration (`en-IN-PrabhatNeural`). |
 | 📹 **[`brag-output/brag.mp4`](brag-output/brag.mp4)** | **Full HD 1080p Demo Video** — 3.5-minute comprehensive product video rendered with synchronized narration, background music, and baked poster frame. |
