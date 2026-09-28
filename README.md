@@ -12,6 +12,16 @@
 
 ---
 
+### 📚 Quick Links & Hackathon Documentation
+| Document | Focus & Content |
+| :--- | :--- |
+| 🏆 **[`HACKATHON.md`](HACKATHON.md)** | **Official Submission Guide** — Problem statement alignment, judging criteria matrix, and 60-second verification instructions. |
+| 🎙️ **[`PITCH.md`](PITCH.md)** | **3-Minute Pitch Script & Slide Deck** — Compelling presentation script, factory downtime ROI ($22k/min), and DeadMind knowledge continuity narrative. |
+| 🛠️ **[`APPROACH_AND_CHALLENGES.md`](APPROACH_AND_CHALLENGES.md)** | **Engineering Deep-Dive & Post-Mortem** — Why Qdrant Edge, Windows symlink workarounds, deterministic n-gram vectorizer fallbacks, and safety guards. |
+
+---
+
+
 ## 📸 Visual Showcase & UI Tour
 
 ### 1. Offline Semantic Search (< 150ms on Factory Floor)
