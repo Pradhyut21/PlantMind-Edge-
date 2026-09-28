@@ -33,6 +33,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from fastapi.staticfiles import StaticFiles
+if os.path.exists("presentation"):
+    app.mount("/presentation", StaticFiles(directory="presentation", html=True), name="presentation")
+if os.path.exists("brag-output"):
+    app.mount("/brag", StaticFiles(directory="brag-output", html=True), name="brag")
+
+
 # Active shard registry (supports multi-device demo switching)
 active_shards: Dict[str, EdgeShard] = {}
 

@@ -1,0 +1,14 @@
+🚀 Introducing PlantMind Edge — Offline-First Industrial Intelligence with Qdrant Edge!
+
+Factory downtime costs $22,000/minute. When an automotive stamping line stalls in a Wi-Fi dead zone, cloud AI fails. Meanwhile, 10,000 senior technicians retire every day, taking decades of tribal knowledge with them.
+
+We built PlantMind Edge:
+⚡ Sub-150ms Vector Search on-device using local FastEmbed ONNX & Qdrant EdgeShard
+✈️ 100% Offline Capability — works in concrete dead zones without internet
+🛡️ Deliberate Data Policy — technicians control what stays local vs. what syncs
+🤖 Groq LLaMA-3.3 Conflict Reconciliation — zero fatal last-write-wins overwrites on safety procedures
+📊 18x ROI — preventing a single 2-hour downtime incident saves $2.6M
+
+Watch our 3-minute executive product demonstration video!
+
+#Qdrant #EdgeAI #IndustrialAI #VectorDatabase #OfflineFirst #SmartManufacturing #Groq

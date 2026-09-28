@@ -1,6 +1,9 @@
 # 🎙️ PlantMind Edge — Pitch Deck & 3-Minute Demo Script
 
 > **"What happens when your best technician of 30 years retires tomorrow, and Line 3 halts in a Wi-Fi dead zone?"**
+>
+> 🎬 **Watch the 1080p Video:** [**`brag-output/brag.mp4`**](brag-output/brag.mp4) (Narrated by Prabhat in Indian English)  
+> 🖥️ **Interactive White-Theme Slide Deck:** [**`presentation/index.html`**](presentation/index.html) or [**`http://localhost:3000/presenter.html`**](http://localhost:3000/presenter.html)
 
 ---
 

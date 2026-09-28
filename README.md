@@ -15,11 +15,22 @@
 ### 📚 Quick Links & Hackathon Documentation
 | Document | Focus & Content |
 | :--- | :--- |
+| 🎬 **[`presentation/index.html`](presentation/index.html)** | **Interactive HTML PPT Presenter (Executive White Theme)** — 8-slide self-playing keynote with Indian English neural voice narration (`en-IN-PrabhatNeural`). |
+| 📹 **[`brag-output/brag.mp4`](brag-output/brag.mp4)** | **Full HD 1080p Demo Video** — 3.5-minute comprehensive product video rendered with synchronized narration, background music, and baked poster frame. |
 | 🏆 **[`HACKATHON.md`](HACKATHON.md)** | **Official Submission Guide** — Problem statement alignment, judging criteria matrix, and 60-second verification instructions. |
 | 🎙️ **[`PITCH.md`](PITCH.md)** | **3-Minute Pitch Script & Slide Deck** — Compelling presentation script, factory downtime ROI ($22k/min), and DeadMind knowledge continuity narrative. |
 | 🛠️ **[`APPROACH_AND_CHALLENGES.md`](APPROACH_AND_CHALLENGES.md)** | **Engineering Deep-Dive & Post-Mortem** — Why Qdrant Edge, Windows symlink workarounds, deterministic n-gram vectorizer fallbacks, and safety guards. |
 
 ---
+
+## 🎬 Executive Demo Video & HTML PPT Presenter
+
+[![PlantMind Edge Demo Poster](brag-output/brag.jpg)](brag-output/brag.mp4)
+
+> 🎙️ **Narration:** Indian English Neural Accent (`en-IN-PrabhatNeural`)  
+> 🎨 **Theme:** Executive White Theme with crisp typography and verified UI screenshots  
+> 🖥️ **Live Presenter:** Open [**`presentation/index.html`**](presentation/index.html) or [**`http://localhost:3000/presenter.html`**](http://localhost:3000/presenter.html) in any browser to experience the self-playing slide deck!  
+> 📹 **Video File:** [**`brag-output/brag.mp4`**](brag-output/brag.mp4) (1080p H.264, 3.5 mins, 10.3 MB)
 
 
 ## 📸 Visual Showcase & UI Tour
