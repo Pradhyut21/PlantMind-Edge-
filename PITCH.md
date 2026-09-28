@@ -1,8 +1,6 @@
 # 🎙️ PlantMind Edge — Pitch Deck & 3-Minute Demo Script
 
 > **"What happens when your best technician of 30 years retires tomorrow, and Line 3 halts in a Wi-Fi dead zone?"**
->
-> 📊 **PowerPoint Presentation:** [**`PlantMind_Edge_Executive_Deck.pptx`**](PlantMind_Edge_Executive_Deck.pptx) (16:9 Widescreen with Speaker Notes)  
 > 🎬 **Watch the 1080p Video:** [**`docs/video/plantmind_edge_demo.mp4`**](docs/video/plantmind_edge_demo.mp4) (Narrated by Prabhat in Indian English)  
 > 📸 **Visual Application Tour:** [**`docs/screenshots/`**](docs/screenshots/) (5 High-DPI UI Tours)
 

@@ -41,21 +41,19 @@
 | Document | Focus & Content |
 | :--- | :--- |
 | 📦 **[`PlantMind_Edge_Submission.zip`](PlantMind_Edge_Submission.zip)** | **Complete Clean Submission Archive** — Full project package excluding `node_modules`, `.next`, `.wav` intermediates, and cache directories for immediate distribution. |
-| 📊 **[`PlantMind_Edge_Executive_Deck.pptx`](PlantMind_Edge_Executive_Deck.pptx)** | **16:9 PowerPoint Slide Deck** — Complete 9-slide offline presentation deck with executive white theme, embedded UI screenshots, engineering verification matrix, and speaker notes. |
 | 📹 **[`docs/video/plantmind_edge_demo.mp4`](docs/video/plantmind_edge_demo.mp4)** | **Full HD 1080p Demo Video** — Comprehensive product video rendered with synchronized narration, background music, and baked poster frame. |
 | 🏆 **[`HACKATHON.md`](HACKATHON.md)** | **Official Submission Guide** — Problem statement alignment, judging criteria matrix, and 60-second verification instructions. |
-| 🎙️ **[`PITCH.md`](PITCH.md)** | **3-Minute Pitch Script & Slide Deck** — Compelling presentation script, factory downtime context, and tribal knowledge continuity narrative. |
+| 🎙️ **[`PITCH.md`](PITCH.md)** | **3-Minute Pitch Script & Demo Guide** — Compelling presentation script, factory downtime context, and tribal knowledge continuity narrative. |
 | 🛠️ **[`APPROACH_AND_CHALLENGES.md`](APPROACH_AND_CHALLENGES.md)** | **Engineering Deep-Dive & Post-Mortem** — Why Qdrant Edge, Windows symlink workarounds, deterministic n-gram vectorizer fallbacks, and native Rust binding lifecycle. |
 
 ---
 
-## 🎬 Executive Demo Video & Presentation Suite
+## 🎬 Executive Demo Video & Visual Tour
 
 [![PlantMind Edge Demo Poster](docs/video/poster.jpg)](docs/video/plantmind_edge_demo.mp4)
 
 > 🎙️ **Narration:** Indian English Neural Accent (`en-IN-PrabhatNeural`)  
 > 🎨 **Theme:** Executive White Theme with crisp typography and verified UI screenshots  
-> 📊 **PowerPoint File:** [**`PlantMind_Edge_Executive_Deck.pptx`**](PlantMind_Edge_Executive_Deck.pptx) (16:9 Widescreen, 2.73 MB, 9 Slides with Speaker Notes & Verification Matrix)  
 > 📹 **Demo Video:** [**`docs/video/plantmind_edge_demo.mp4`**](docs/video/plantmind_edge_demo.mp4) (1080p Full HD H.264, 3.5 mins, 9.87 MB)
 
 ---
@@ -179,7 +177,6 @@ PlantMind-Edge/
 ├── HACKATHON.md                   # Hackathon judging matrix & submission guide
 ├── PITCH.md                       # 3-minute executive pitch & demo narrative
 ├── APPROACH_AND_CHALLENGES.md     # Architecture decisions & engineering post-mortem
-├── PlantMind_Edge_Executive_Deck.pptx # 16:9 Executive PowerPoint slide deck
 ├── requirements.txt               # Python backend dependencies (qdrant-edge-py==0.8.0)
 ├── seed_data.py                   # Automated industrial dataset & conflict seeder
 ├── verify_demo.py                 # End-to-end automated integration test suite (7/7 pass)
